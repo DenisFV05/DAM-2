@@ -3,15 +3,16 @@ package com.deures;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+
 public class Producte {
     private int id;
     private String nom;
-    private final PropertyChangeSupport support;
+    private PropertyChangeSupport support;
 
     public Producte(int id, String nom) {
         this.id = id;
         this.nom = nom;
-        support = new PropertyChangeSupport(this);
+        this.support = new PropertyChangeSupport(this);
     }
 
     public int getId() {
@@ -22,6 +23,7 @@ public class Producte {
         int oldId = this.id;
         this.id = id;
         support.firePropertyChange("producteId", oldId, id);
+        System.out.printf("Producte ha canviat l'id de %d a %d%n", oldId, id);
     }
 
     public String getNom() {
@@ -32,6 +34,7 @@ public class Producte {
         String oldNom = this.nom;
         this.nom = nom;
         support.firePropertyChange("producteName", oldNom, nom);
+        System.out.printf("Producte ha canviat el nom de '%s' a '%s'%n", oldNom, nom);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -41,10 +44,6 @@ public class Producte {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }
-
-    @Override
-    public String toString() {
-        return "Producte{id=" + id + ", nom='" + nom + "'}";
-    }
 }
+
 
