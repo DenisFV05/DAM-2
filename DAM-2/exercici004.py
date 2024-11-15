@@ -10,7 +10,13 @@ import utils
 # Definir colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (200, 0, 0)
+GREEN = (127, 184, 68)
+YELLOW = (240, 187, 64)
+ORANGE = (226, 137, 50)
+RED = (202, 73, 65)
+PURPLE = (135, 65, 152)
+BLUE  = (75, 154, 217)
+colors = [GREEN, YELLOW, ORANGE, RED, PURPLE, BLUE]
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -19,17 +25,13 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((640, 480))
 pygame.display.set_caption('Window Title')
 
-# Llista aleatòria
-list = []
+# Variables globals
+mouse_pos = { "x": -1, "y": -1 }
+dots = []
 
 # Bucle de l'aplicació
 def main():
-    global list
-
     is_looping = True
-
-    window_width, window_height = screen.get_size()  # Obtenir els límits de la finestra    
-    list = [(random.randint(0, window_width), random.randint(0, window_height)) for _ in range(10)]
 
     while is_looping:
         is_looping = app_events()
@@ -44,22 +46,50 @@ def main():
 
 # Gestionar events
 def app_events():
+    global mouse_pos
+    mouse_inside = pygame.mouse.get_focused() # El ratolí està dins de la finestra?
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # Botó tancar finestra
             return False
+        elif event.type == pygame.MOUSEMOTION:
+            if mouse_inside:
+                mouse_pos["x"] = event.pos[0]
+                mouse_pos["y"] = event.pos[1]
+            else:
+                mouse_pos["x"] = -1
+                mouse_pos["y"] = -1
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            dots.append({ 
+                "x": mouse_pos["x"],
+                "y": mouse_pos["y"],
+                "radius": 25,
+                "color": random.choice(colors)
+            })
     return True
 
 # Fer càlculs
 def app_run():
-    global list
+    global dots
+
+    delta_time = clock.get_time() / 1000.0  # Convertir a segons
+
+    speed = 5 
+
+    for dot in dots:
+        dot["radius"] = dot["radius"] - speed * delta_time
+        if dot["radius"] < 5:
+            dot["radius"] = 5
 
 # Dibuixar
 def app_draw():
     screen.fill(WHITE)
     utils.draw_grid(pygame, screen, 50)
     
-    # Dibuixar la llista
-    pygame.draw.polygon(screen, BLACK, list, 5)
+    # Dibuixar punts
+    for dot in dots:
+        center = (dot["x"], dot["y"])
+        pygame.draw.circle(screen, dot["color"], center, dot["radius"])
 
     pygame.display.update()
 

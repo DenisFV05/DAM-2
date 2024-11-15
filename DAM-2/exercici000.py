@@ -53,19 +53,12 @@ def app_run():
 def app_draw():
     screen.fill(WHITE)
     utils.draw_grid(pygame, screen, 50)
-    
-    # Dibuixar el quadre rosa
-    pygame.draw.rect(screen, PINK, (150, 200, 50, 50), 5)
-    
-    # Dibuixar el triangle verd
-    pygame.draw.polygon(screen, GREEN, [(275, 200), (275 - 28, 248), (275 + 28, 248)], 5)
-    
-    # Dibuixar la creu blava
-    pygame.draw.line(screen, BLUE, (350, 200), (400, 250), 5)
-    pygame.draw.line(screen, BLUE, (350, 250), (400, 200), 5)
-    
-    # Dibuixar la rodona vermella
-    pygame.draw.circle(screen, RED, (475, 225), 25, 5)
+     
+    for cnt in range(0, 10):
+        x = 100 + cnt * 50
+        r = 10 + cnt * 2.5
+        pygame.draw.circle(screen, GRAY, (x, 225), r)
+        pygame.draw.circle(screen, BLUE, (x, 225), r, 2)
 
     pygame.display.update()
 

@@ -7,6 +7,13 @@ Resol aquests exercicis, entrega la URL del projecte GitHub amb els exercicis re
 
 Fes un programa **exercici000.py** que faci el següent dibuix, amb les eines de dibuix de **pygame**.
 
+Fes-ho amb un bucle for:
+```python
+for cnt in range(0, 10)
+```
+
+- Observa les posicions per veure les posicions **(x,y)**
+- El radi és: **10 + cnt * 2.5**
 <br/>
 <center><img src="./assets/exercici000.png" style="max-height: 400px" alt="">
 <br/></center>
@@ -14,15 +21,35 @@ Fes un programa **exercici000.py** que faci el següent dibuix, amb les eines de
 
 ## Exercici 1
 
-Fes un programa **exercici001.py** que faci el següent dibuix, amb les eines de dibuix de **pygame**.
+Fes un programa **exercici001.py** que dibuixi 20 rectangles centrats a la pantalla, simulant perspectiva.
 
-Les tipografies són:
+Cal fer-ho amb un bulce:
+```python
+for q in range(20, 0, -1)
+```
 
-- Arial de mida 60
-- Courier New de mida 40, Bold
-- Arial de 28
-- El color verd és: (100, 150, 100)
+A cada pas el factor de perspectiva multiplica l'ample i alt del quadre amb **perspective = (q / 20)**
 
+L'ample i alt de cada quadre és:
+```python
+q_ample = q * 25 * perspective
+q_alt = q * 20 * perspective
+```
+
+S'ha de centrar els quadres a la finestra, fes una variable global per capturar les mides:
+```python
+def app_run():
+    global window_size
+    window_size["width"] = screen.get_width()
+    window_size["height"] = screen.get_height()
+    window_size["center"]["x"] = int(screen.get_width() / 2)
+    window_size["center"]["y"] = int(screen.get_height() / 2)
+```
+
+A més, el color canvia a cada iteració amb **q * 10**.
+
+- Els quadres parells són de color blau
+- Els quadres senars de color verd
 <br/>
 <center><img src="./assets/exercici001.png" style="max-height: 400px" alt="">
 <br/></center>
@@ -30,18 +57,23 @@ Les tipografies són:
 
 ## Exercici 2
 
-Fes un programa **exercici002.py** que faci el següent dibuix, amb les eines de dibuix de **pygame**.
+Fes un programa **exercici002.py** on:
 
-Els arxius estàn a: *"./assets/exercici002/"*
+Defineix una nova funció **draw_text(text, font, x, y, align_x="left", align_y="top")** que dibuixa un text a la posició **x**, **y** amb l'anineació definida a **align_x** i **align_y**.
 
-Fes servir la funció d'escalat que hi ha a utils, amb un ample de 100 per en Shinnosuke i de 75 per en Shiro.
+Els tipus d'alineacions són:
 
+- **Horitzontals**: center, right, left
+- **Verticals**: center, bottom, top
+
+Fes servir les [eines de text](https://pygame-zero.readthedocs.io/en/stable/ptext.html) de **pygame**, és a dir:
 ```python
-# Carregar la imatge d'en Shinnosuke
-path_shinnosuke = os.path.join(os.path.dirname(__file__), "./assets/exercici002/shinnosuke.png")
-im_shinnosuke = pygame.image.load(path_shinnosuke).convert_alpha()
-im_shinnosuke = utils.scale_image(pygame, im_shinnosuke, target_width=100)
+text_surface = font.render(text, True, (0, 0, 0))
+text_rect = text_surface.get_rect()
+text_rect.centerx
 ```
+
+Fes servir els cercles BLUE com a punts de referència.
 
 <br/>
 <center><img src="./assets/exercici002.png" style="max-height: 400px" alt="">
@@ -50,187 +82,214 @@ im_shinnosuke = utils.scale_image(pygame, im_shinnosuke, target_width=100)
 
 ## Exercici 3
 
-Fes un programa **exercici003.py** que faci el següent dibuix, amb les eines de dibuix de **pygame**.
+Fes un programa **exercici003.py** on un quadre segueix el moviment del mouse i canvia de color segons uns límits.
 
-Fes servir dos bucles:
+Fes que la finestra sigui reescalable amb:
+```python
+screen = pygame.display.set_mode((640, 480), pygame.RESIZABLE)
+```
 
-- Un bucle pels colors emplenats vermells i blancs
-- Un bucle pels cercles negres
+- El rectangle exterior està a 100 pixels dels limits de la finestra
+- El color del quadre és negre dora del rectangle exterior
+- El color del quadre és:
 
-<br/>
-<center><img src="./assets/exercici003.png" style="max-height: 400px" alt="">
-<br/></center>
+  * Vermell al quadrant superior-esquerra
+  * Verd al quadrant inferior-esquerra
+  * Blau al quadrant superior-dret
+  * Groc al quadrant inferior-dret
+
+<center>
+<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
+  <source src="./assets/exercici003.mov" type="video/mp4">
+</video>
+</center>
 <br/>
 
 ## Exercici 4
 
-Fes un programa **exercici004.py** que faci un dibuix aleatori, amb les eines de dibuix de **pygame**.
-
-Al iniciar el mètode main, s'ha d'emplenar una llista amb 10 coordenades (x,y) aleatòria dins dels limits de la finestra.
-
+Fes un programa **exercici004.py** on al fer click amb el mouse, apareix un cercle amb radi 25 i color aleatòri i dins la següent llista de colors:
 ```python
-window_width, window_height = screen.get_size()
+GREEN = (127, 184, 68)
+YELLOW = (240, 187, 64)
+ORANGE = (226, 137, 50)
+RED = (202, 73, 65)
+PURPLE = (135, 65, 152)
+BLUE  = (75, 154, 217)
+colors = [GREEN, YELLOW, ORANGE, RED, PURPLE, BLUE]
 ```
 
-Aleshores la funció draw ha de dibuixar la llista anterior, com a **polygon**
+Després, el radi del cercle es va fent més petit a un ritme de 5 pixels per segon fins a quedar d'una mida mínima de radi 5.
 
-<br/>
-<center><img src="./assets/exercici004.png" style="max-height: 400px" alt="">
-<br/></center>
+<center>
+<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
+  <source src="./assets/exercici004.mov" type="video/mp4">
+</video>
+</center>
 <br/>
 
 ## Exercici 5
 
-Fes un programa **exercici005.py** que faci el següent dibuix, amb les eines de dibuix de **pygame**.
+Fes un programa **exercici005.py** on es generen 10 cercles de diferents mides i colors aleatòriament. Aquests cercles cauràn de la part superior de la finestra fins a desaparèixer a la part inferior.
 
-S'ha de dibuixar una espiral rectangular que surt des del centre de la finestra:
-```python
-# Centre de la pantalla
-center_x, center_y = int(screen.get_width() / 2), int(screen.get_height() / 2)
-```
+Els cercles representen globus i el jugador els ha d'explotar.
 
-En total ha de fer 25 voltes (linies) a partir d'un bucle:
-```python
-for _ in range(25)
-```
+Quan el jugador passa el mouse per damunt d'un cercle, el cercle desapareix representant que el jugador ha explotat el globus.
 
-A cada volta (linia), s'incrementa en 15 pixels el dibuix de la següent linia
+A la part inferior esquerra de la finestra es mostra el número de globus explotats i el número de globus que caigut al final de la finestra.
 
-<br/>
-<center><img src="./assets/exercici005.png" style="max-height: 400px" alt="">
-<br/></center>
+Funcions recomanades:
+**init_game()**
+Inicia el joc amb un tauler de 10 globus
+
+**init_baloon(balloon)**
+Defineix els valors d'un globus:
+
+- Una posició *x* aleatòria entre 10 i l'ample de la finestra -10
+- La posició *y* a la part superior de la finestra
+- Un color aleatòri d'una llista de colors
+- El radi del cercle entre 5 i 15
+- La velocitat de caiguda del globus = (radi * 2) + (numero de globus explotats)
+
+**update_balloon(balloon, delta_time)**
+Té dues finalitats:
+
+- Actualitzar la posició de caiguda del globus segons la seva velocitat i el delta_time
+- Detectar quan un globus arriba a la part inferior de la finestra i recalcular els seus valors amb "init_balloon"
+
+<center>
+<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
+  <source src="./assets/exercici005.mov" type="video/mp4">
+</video>
+</center>
 <br/>
 
 ## Exercici 6
 
-Fes un programa **exercici006.py** que faci el següent dibuix, fent servir bucles anidats:
+Fes un programa **exercici006.py** on es dibuixa una graella que representa un tauler amb vaixells.
 
+Cal fer servir els emojis: "🚢", "🌊", "💥" de la llibreria "assets.svgmoji.emojis". Per importar-la:
 ```python
-    for row in range(8):
-        for column in range(8):
+from assets.svgmoji.emojis import get_emoji
+```
+Per carregar imatges que representen els emojis:
+```python
+img_ship = get_emoji(pygame, "🚢", size=CELL_SIZE)
 ```
 
-<br/>
-<center><img src="./assets/exercici006.png" style="max-height: 400px" alt="">
-<br/></center>
+El jugador podrà fer click a cel·les del tauler, si no hi ha res apareix l'icona d'aigua "🌊", si hi ha un vaixell es dibuixa una bomba a sobre d'aquest "💥" (mirar el video)
+
+El tauler té els següents valors:
+
+- "", una cadena de text buida si només es dibuixa el fons blau
+- "S", (ship) si en aquella posició hi ha un vaixell
+- "W", (water) si s'ha fet click a aquella cel·la però originalment era buida ""
+- "B", (bomb) si s'ha fet click a aquella cel·la i originalment hi havia un vaixell "S"
+
+Funcions recomanades:
+**init_board(), iniciar el taulell**
+Aquesta funció ha d'iniciar un taulell de 12 columnes i 8 files, on cada cel·la és de 50x50
+
+El taulell ha de tenir:
+
+- Un grup de 3 vaixells posats de costat horitzontalment
+- Un grup de 4 vaixells posats de costat horitzontalment
+- Un grup de 3 vaixells posats verticalment un al damunt de l'altre
+- Els grups de vaixells no es poden tocar, hi ha d'haver almenys un espai entre ells
+
+**draw_board(), iniciar el taulell**
+Dibuixa el tauler segons:
+
+- Si és "", és a dir no hi ha res, dibuixa un fons blau (100, 200, 255)
+- Si és "S", és a dir hi ha un vaixell, dibuixa el fons blau i l'emoji (🚢)
+- Si és "W", és a dir s'ha fet click a aigua, dibuixa el fons blau i l'emoji (🌊)
+- Si és "B", és a dir hi havia un vaixell però ara és bomba, dibuixa el fons blau, el vaixell (🚢) i la bomba (💥)
+
+**place_ship(x, y, length, direction), iniciar el taulell**
+Afegeix al taulell, un grup de vaixells de mida *length* en direcció *direction*, a la posició *x*, *y*
+
+**is_valid_position(x, y, length, direction)**
+Diu si una posició és vàlida per afegir un grup de vaixells, comprova que al voltant dels limits les ce·les estiguin buides i retorna True o False
+
+Finalment: **el tauler ha de quedar centrat a la finestra**
+
+<center>
+<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
+  <source src="./assets/exercici006.mov" type="video/mp4">
+</video>
+</center>
 <br/>
 
 ## Exercici 7
 
-Fes un programa **exercici007.py** que faci el següent dibuix, a partir de dos bucles:
+Fes un programa **exercici007.py** on dos botons sumen o resten el valor d'un comptador:
 
-- Els bucles es defineixen com: **"for q in range (0, len(colors))"**
+- La operació no es fa fins a l'event **'mouseup'** dins del mateix botó
+- Mentre hi ha el botó apretat, aquest es dibuixa amb un fons taronja (255, 165, 0)  
 
-- Els colors del primer bucle s'obtenen de la següent llista:
-    **"colors = [(127, 184, 68), (240, 187, 64), (226, 137, 50), (202, 73, 65), (135, 65, 152), (75, 154, 217)]"**
-
-- Els colors *grisos* s'obtenen dinàmicament des de (0, 0, 0) sumant 25 a cada iteració. És a dir: **"(0, 0, 0) > (25, 25, 25) > (50, 50, 50) ..."**
-
-- La mida dels quadres és de **50** i els radis de la resta de polígons és de **25**
-
-- Necessitaràs la següent funció per dibuixar els triangles i pentàgons.
-
-```python
-def draw_polygon(screen, color, center, radius, num_vertices, angle_offset=(math.pi / 3)):
-    points = [
-        (
-            center[0] + radius * math.cos(angle_offset + i * 2 * math.pi / num_vertices),
-            center[1] + radius * math.sin(angle_offset + i * 2 * math.pi / num_vertices)
-        )
-        for i in range(num_vertices)
-    ]
-    pygame.draw.polygon(screen, color, points)
-```
-
-<br/>
-<center><img src="./assets/exercici007.png" style="max-height: 400px" alt="">
-<br/></center>
+<center>
+<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
+  <source src="./assets/exercici007.mov" type="video/mp4">
+</video>
+</center>
 <br/>
 
 ## Exercici 8
 
-Fes un programa **exercici008.py** que faci el següent dibuix, a partir de la següent matriu, on cada número de la matriu correspon a un color de la llista:
+Fes un programa **exercici008.py** on dos botons canvien la direcció de moviment d'un cercle (amunt i avall):
 
-```python
-colors = [(127, 184, 68), (240, 187, 64), (226, 137, 50), (202, 73, 65), (135, 65, 152), (75, 154, 217)]
-board = [
-    [0, 1, 2, 3, 4, 5, 4, 3],
-    [1, 2, 3, 4, 5, 4, 3, 2],
-    [2, 3, 4, 5, 4, 3, 2, 1],
-    [3, 4, 5, 4, 3, 2, 1, 0],
-    [4, 5, 4, 3, 2, 1, 0, 1],
-    [5, 4, 3, 2, 1, 0, 1, 2],
-    [4, 3, 2, 1, 0, 1, 2, 3],
-    [3, 2, 1, 0, 1, 2, 3, 4],
-]
-```
+- El canvi de direcció no es fa fins a l'event **'mouseup'** dins del mateix botó
+- Mentre hi ha el botó apretat, aquest es dibuixa amb un fons taronja (255, 165, 0)  
+- El botó que marca la direcció es dibuixa amb un fons blau (100, 200, 255)
 
-<br/>
-<center><img src="./assets/exercici008.png" style="max-height: 400px" alt="">
-<br/></center>
+<center>
+<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
+  <source src="./assets/exercici008.mov" type="video/mp4">
+</video>
+</center>
 <br/>
 
 ## Exercici 9
 
-Fes un programa **exercici009.py** que faci el següent dibuix, a partir de la següent llista de dades.
+Fes un programa **exercici009.py** on quatre botons defineixen el valor d'un visualitzador *Hexadecimal* de [7 segments](https://ca.wikipedia.org/wiki/Visualitzador_de_set_segments) escollits a partir de 4 botons.
 
-- Fes un fons blanc per la taula d'informació
-- Dibuixa les linies horitzontals de cada fila en un bucle
-- La tipografia és "Arial" però pel nom és 18 i els detalls 16
-- El color blau es correspon a (50, 120, 200)
-- Els textos estàn desplacats 5 pixels horitzontals i 2 verticals
-
-S'ha de fer amb un bucle, de manera que si hi ha més o menys dades, la taula s'adapta.
-
-```text
-dades = [ 
-  {'nom': 'Pelut', 'any': 2018, 'pes': 6.5, 'especie': 'Gos'},
-  {'nom': 'Pelat', 'any': 2020, 'pes': 5.0, 'especie': 'Gos'},
-  {'nom': 'Mia', 'any': 2022, 'pes': 3.0, 'especie': 'Gat'},
-  {'nom': 'Nemo', 'any': 2003, 'pes': 0.1, 'especie': 'Peix'},
-  {'nom': 'Mickey', 'any': 1928, 'pes': 0.5, 'especie': 'Ratolí'},
-  {'nom': 'Donald', 'any': 1934, 'pes': 0.5, 'especie': 'Ànec'} ]
-```
+- El canvi de valor es fa a l'event **'mousedown'** dins del mateix botó.
+- Sempre es dibuixen tots els segments de color gris (215, 215, 215)
+- A partir del número hexadecimal s'activen els segments per dibuixar: *0,1,2,3,4,5,6,7,8,9,a,b,c,d,e*
 
 <br/>
-<center><img src="./assets/exercici009.png" style="max-height: 400px" alt="">
-<br/></center>
+<center>
+<table>
+  <tr>
+    <td><img src="./assets/exercici009/hex_0.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_1.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_2.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_3.png" width="165"></td>
+  </tr>
+  <tr>
+    <td><img src="./assets/exercici009/hex_4.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_5.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_6.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_7.png" width="165"></td>
+  </tr>
+  <tr>
+    <td><img src="./assets/exercici009/hex_8.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_9.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_a.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_b.png" width="165"></td>
+  </tr>
+  <tr>
+    <td><img src="./assets/exercici009/hex_c.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_d.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_e.png" width="165"></td>
+    <td><img src="./assets/exercici009/hex_f.png" width="165"></td>
+  </tr>
+</table>
+</center>
 <br/>
 
 ## Exercici 10
 
-Fes un programa **exercici010.py** que a partir d'una llista de rectangles i colors:
-```python
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE  = (0, 0, 255)
-PURPLE = (128, 0, 128)
-ORANGE = (255, 165, 0) 
-GOLD = (255, 215, 0)
-NAVY = (0, 0, 128)
-rectangles = [
-    { "rect": { "x": 50, "y": 100, "width": 250, "height": 50 }, "color": RED },
-    { "rect": { "x": 50, "y": 200, "width": 100, "height": 200 }, "color": GOLD },
-    { "rect": { "x": 200, "y": 200, "width": 100, "height": 100 }, "color": BLUE },
-    { "rect": { "x": 200, "y": 350, "width": 400, "height": 50 }, "color": PURPLE },
-    { "rect": { "x": 350, "y": 100, "width": 50, "height": 200 }, "color": ORANGE },
-    { "rect": { "x": 450, "y": 100, "width": 150, "height": 100 }, "color": GREEN },
-    { "rect": { "x": 450, "y": 250, "width": 150, "height": 50 }, "color": NAVY }
-]
-```
-
-Dibuixi els rectangles a les posicions indicades, i els empleni del color quan el mouse passa pel damunt.
-
-Ha de fer servir bucles for, tant a **"app_run""** per detectar si el mouse està en algun rectangle, com a **"app_draw"** per fer el dibuix.
-
-Feu servir la funció **"utils.is_point_in_rect"** per veure si un punt està dins de l'àrea definida per un rectangle:
-```python
-point= { "x": 15, "y": 15 }
-rect = { "x": 10, "y": 10, "width": 20, "height": 20 }
-utils.is_point_in_rect(point, rect):
-```
+Fes un programa **exercici010.py** on hi hagi una serp, que segueix la posició del mouse i creix al *"menjar pomes"*. A mida que la serp creix, la velocitat a la que es mou és més ràpida.
 
 <center>
 <video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
@@ -239,489 +298,113 @@ utils.is_point_in_rect(point, rect):
 </center>
 <br/>
 
-## Exercici 11
-
-Fes un programa **exercici011.py** que amb les tecles *"dreta"* i *"esquerra"* del teclat, mogui un cercle per la pantalla.
-
-La mida del cercle ha de canviar segons la posició X on es troba, essent:
+Fes servir aquest objecte pr guardar la informació de la *"serp"* i la *"poma"*:
 ```python
-size = 10 + (pos_x / 8)
-```
-
-La velocitat del moviment és de 100 píxels per segon.
-
-El moviment del cercle ha d'estar limitat a la mida de la finestra:
-```python
-screen.get_width()
-```
-
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
-  <source src="./assets/exercici011.mov" type="video/mp4">
-</video>
-</center>
-<br/>
-
-## Exercici 12
-
-Fes un programa **exercici012.py** que amb les tecles *"fletxa"* del teclat, es mogui un esquiador per la muntanya.
-
-- L'esquiador pot anar per sobre de la neu
-- L'esquiador **no** pot anar fora del taulell 
-- L'esquiador **no** pot anar on hi ha un arbre o un ninot de neu.
-- L'esquiador sempre comença a la fila 0, columna 0
-- El color de fons de cada casella és: **"LIGHT_BLUE = (173, 216, 230)"**
-- La mida de cada casella és: **"CELL_SIZE = 50"**
-
-Per carregar les imatges **emoji** necessites importar **svgmoji** que està a la carpeta **"./assets"** així:
-```python
-from assets.svgmoji.emojis import get_emoji
-```
-
-No es poden mostrar **emojis** amb **pygame**, però si imatges de la llibreria **svgmoji** en format **.png**. Pots carregar les imatges així:
-```python
-img_tree = get_emoji(pygame, "🌲", size=CELL_SIZE)
-img_sman = get_emoji(pygame, "☃️", size=CELL_SIZE)
-img_snow = get_emoji(pygame, "❄️", size=CELL_SIZE)
-img_skater = get_emoji(pygame, "🏂", size=CELL_SIZE)
-```
-
-Defineix la funció **"place_random_letters(letter, count)"**:
-
-- Posa "count" vegades la lletra "letter" en posicions aleatòries del tauler
-- **No** es poden posar lletres a la posició 0,0
-
-Defineix la funció **"init_board()"**:
-
-- Inicia un tauler de 8 files i 10 columnes amb cadenes de text buides ""
-- Inicia 9 caselles amb la lletra "T" fent servir *place_random_letters*
-- Inicia 3 caselles amb la lletra "S" fent servir *place_random_letters*
-- Inicia 3 caselles amb la lletra "M" fent servir *place_random_letters*
-
-Defineix la funció **"is_skiable_cell(row, col)"**:
-
-- Retorna 'False' si la casella *row/col* està fora del tauler
-- Retorna 'False' si la casella *row/col* té un arbre 'T' o un ninot de neu 'M'
-- Retorna 'True' si l'esquiador pot anar a aquella casella (està buida o té neu 'S')
-
-La funció **"app_events"** ha de posicionar el jugador a una casella esquiable quan s'apreten les tecles *fletxa*
-
-La funció **"app_draw"** ha de dibuixar el tauler amb caselles de mida 50x50 i imatges:
-
-- On hi ha un arbre **'T'** dibuixa **'img_tree'**
-- On hi ha un ninot de neu **'M'** dibuixa **'img_sman'**
-- On hi ha neu de neu **'S'** dibuixa **'img_snow'**
-
-També dibuixa el jugador amb **'img_skater'** a la posició on toca
-
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
-  <source src="./assets/exercici012.mov" type="video/mp4">
-</video>
-</center>
-<br/>
-
-## Exercici 13
-
-Fes un programa **exercici013.py** que amb les tecles *"fletxa"* del teclat, es mogui un cotxe per un circuit.
-
-Les dades inicials del cotxe són:
-
-```python
-car = {
-    "x": 245,
-    "y": 430,
-    "angle": 270,
-    "speed": 100,
-    "img": img_car,
-    "direction_x": "none",
-    "direction_y": "none",
-}
-```
-
-Els arxius estàn a: *"./assets/exercici012/"*
-
-El cotxe s'ha de moure en 8 direccions: 
-
-| Direccions | | | |
-|--------------|-|-|-|
-| | ↖️  | ⬆️ | ↗️  |
-| | ⬅️ |    | ➡️  |
-| | ↙️  | ⬇️ | ↘️  |
-
-<br/>
-
-Escala el cotxe amb **"target_width=15"** i la imatge amb **"target_height=480"**
-
-Per mostrar el cotxe rotat, fes servir la funció [pygame.transform.rotate](https://www.pygame.org/docs/ref/transform.html#pygame.transform.rotate)
-```python
-# Dibuixar el cotxe
-rotated_img = pygame.transform.rotate(car["img"], car["angle"])
-rect = rotated_img.get_rect(center=(car["x"], car["y"]))
-screen.blit(rotated_img, rect)
-```
-
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 500px; max-height: 300px">
-  <source src="./assets/exercici013.mov" type="video/mp4">
-</video>
-</center>
-<br/>
-
-## Exercici 14
-
-Fes un programa **exercici014.py** que faci el següent dibuix, a partir del bucle:
-
-```python
-for counter in range(0, 11):
-```
-
-El valor de lluminositat de cada color es calcula a partir del propi comptador i del limit de 255 valors que té cada color RGB:
-
-```python
-light = counter * (255 / 10)
-```
-
-La posició **x** de cada quadre també s'ha de calcular a partir de **counter**
-
-<br/>
-<center><img src="./assets/exercici014.png" style="max-height: 400px" alt="">
-<br/></center>
-<br/>
-
-## Exercici 15
-
-Fes un programa **exercici015.py** que faci el següent dibuix, a partir d'un bucle.
-
-Els colors [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) representen els colors a partir de:
-
-- **hue**: Un número entre 0 i 360 que representa el color (to) en el cercle cromàtic. 
-- **saturation**: Un número entre 0 i 1 que representa la saturació o intensitat del color. 
-- **lightness**: Un número entre 0 i 1 que representa la lluminositat del color. 
-
-Aquesta funció transforma un color **HSL** al format **RGB** de **pygame**:
-
-```python
-utils.hsl_to_rgb(hue, saturation, lightness)
-```
-
-Per fer l'exercici fes servir:
-
-```python
-    columns = 21
-    for column in range(0, columns):
-```
-
-- **x**: x = 50 + column * 25
-- **hue**: hue = (360 / 21) * column
-- **saturation**: 1.0
-- **lightness**: 0.5
-- Cada quadre és de 25x25
-
-<br/>
-<center><img src="./assets/exercici015.png" style="max-height: 400px" alt="">
-<br/></center>
-<br/>
-
-## Exercici 16
-
-Fes un programa **exercici016.py** que faci el següent dibuix, a partir de dos bucles anidats:
-
-```python
-rows = 15
-columns = 21
-for row in range(0, rows):
-    for column in range(0, columns):
-```
-
-I fent servir la funció:
-```python
-utils.hsl_to_rgb(hue, saturation, lightness)
-```
-
-- Obté un valor entre 0 i 1 equivalent al counter (dividir per 100)
-- **y**: 50 + row * 25
-- **saturation**: 1.0
-- **lightness**: (1/ 15) * row
-- Cada quadre és de 25x25
-
-<br/>
-<center><img src="./assets/exercici016.png" style="max-height: 400px" alt="">
-<br/></center>
-<br/>
-
-## Exercici 17
-
-Fes un programa **exercici017.py** que faci el següent dibuix, a partir d'un bucle així:
-
-```python
-for angle in range(0, 361, 15):
-```
-
-Fes servir la funció **"utils.point_on_circle"** per obtenir la posició dels punts (x, y) al perímetre del cercle, a partir de l'angle anterior.
-
-La mida de gruix de les línies és de 5.
-
-<br/>
-<center><img src="./assets/exercici017.png" style="max-height: 400px" alt="">
-<br/></center>
-<br/>
-
-## Exercici 18
-
-Fes un programa **exercici018.py** que faci el següent dibuix, una [roda de colors](https://en.wikipedia.org/wiki/Color_wheel) a partir de valors HSL i dibuix amb **pygame.draw.polygon**
-
-Per fer-ho, calcula les linies com a l'exercici anterior i defineix un polígon entre la línia actual i la linia anterior. 
-
-Després emplena aquest polígon del color **HSL** amb l'**angle** que correson, **saturarion** a 1.0 i **lightness** a 0.5.
-
-<br/>
-<center><img src="./assets/exercici018.png" style="max-height: 400px" alt="">
-<br/></center>
-<br/>
-
-## Exercici 19
-
-Fes un programa **exercici019.py** que faci el següent dibuix, fent servir la funció **"draw_moves"** a l'estil [Sketch](https://en.wikipedia.org/wiki/Etch_A_Sketch).
-
-```python
-def draw_moves(color, start_pos, moves):
-    # Dibuixa un poligon segons les instruccions rebudes a la llista 'moves'
-    # Les instruccions són una direcció (up, down, left, right) i una distància
-```
-
-Així, la funció **"draw"** farà aquetes crides a **"draw_moves"**:
-
-```python
-draw_moves(BROWN, (350, 400), moves_house)
-draw_moves(YELLOW, (50, 100), moves_sun)
-draw_moves(BLUE, (100, 400), moves_car)
-draw_moves(GREEN, (0, 400), moves_grass)
-```
-
-Els moviments són:
-
-```python
-moves_house = [{"direction": "right", "distance": 250}, {"direction": "up", "distance": 200}, {"direction": "left", "distance": 50}, {"direction": "up", "distance": 50}, {"direction": "left", "distance": 50}, {"direction": "up", "distance": 50}, {"direction": "left", "distance": 50}, {"direction": "down", "distance": 50}, {"direction": "left", "distance": 50}, {"direction": "down", "distance": 50}, {"direction": "left", "distance": 50}, {"direction": "down", "distance": 200}]
-moves_sun = [{"direction": "right", "distance": 25}, {"direction": "up", "distance": 25}, {"direction": "right", "distance": 25}, {"direction": "up", "distance": 25}, {"direction": "right", "distance": 50}, {"direction": "down", "distance": 25}, {"direction": "right", "distance": 25}, {"direction": "down", "distance": 25}, {"direction": "right", "distance": 25}, {"direction": "down", "distance": 50}, {"direction": "left", "distance": 25}, {"direction": "down", "distance": 25}, {"direction": "left", "distance": 25}, {"direction": "down", "distance": 25}, {"direction": "left", "distance": 50}, {"direction": "up", "distance": 25}, {"direction": "left", "distance": 25}, {"direction": "up", "distance": 25}, {"direction": "left", "distance": 25} ]
-moves_car = [{"direction": "up", "distance": 50}, {"direction": "right", "distance": 50}, {"direction": "up", "distance": 50}, {"direction": "right", "distance": 50}, {"direction": "down", "distance": 50}, {"direction": "right", "distance": 50}, {"direction": "down", "distance": 50} ]
-moves_grass = [{"direction": "right", "distance": 650}, {"direction": "down", "distance": 100}, {"direction": "left", "distance": 650}]
-```
-
-<br/>
-<center><img src="./assets/exercici019.png" style="max-height: 400px" alt="">
-<br/></center>
-<br/>
-
-## Exercici 20
-
-Fes un programa **exercici020.py** que a partir d'un diccionari **board** tipus:
-
-```python
-board = {
-    "position": { 
-        "x": 50, 
-        "y": 50 
-    },
-    "size": { 
-        "rows": 15, 
-        "cols": 10 
-    },
-    "cell_size": 25
-}
-```
-
-Defineix les següents funcions:
-
-- **"def draw_board(board)"**: dibuixa el taulell segons els paràmetres configurats a **board**
-
-- **"def cell_from_point(point, board)"**: Retorna la **fila** i **columna** d'una cel·la del taulell, segons la posició **point**
-
-- **"def point_from_cell(cell, board)"**: Retorna la posició **x** i **y** d'una cel·la que té els paràmetres **row** i **column**
-
-A més, quan el mouse passa pel damunt d'alguna cel·la aquesta s'ha de dibuixar de color *BLUE (50, 120, 200)*.
-
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
-  <source src="./assets/exercici020.mov" type="video/mp4">
-</video>
-</center>
-<br/>
-
-## Exercici 21
-
-Fes un programa **exercici021.py** que generi una graella de números aleatòris entre el 0 i el 9, la graella ha de ser de 10 files i 15 columnes. Aleshores
-
-- Dibuixa la graella on cada cel·la faci 25x25
-- Quan el mouse es posa per damunt d'una cel·la, canvia el color de fons de totes les cel·les que coincideixen amb valor
-- Quan es fa click en una cel·la, s'esborren totes les cel·les que coincideixen amb valor
-
-Hauràs de definir les funcions:
-```python
-def get_cell_value(cell) # Retorna el valor d'una cel·la
-def draw_board_values() # Dibuixa els valors del taulell
-```
-
-**Nota:** Podeu fer servir les funcions de l'exercici 10 *(draw_board, cell_from_point_, point_from_cell)
-
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
-  <source src="./assets/exercici021.mov" type="video/mp4">
-</video>
-</center>
-<br/>
-
-## Exercici 22
-
-Fes un programa **exercici022.py** que canvii la mida d'unes caselles segons la distància del mouse fins a les caselles.
-
-A la funció **app_run** caldrà fer dos bucles:
-
-- El primer bucle mira si el mouse està dins d'alguna casella, tenint en compte la mida
-- El segon bucle, si el mouse no està dins de cap cassella, assigna a totes una mida de 5
-- El segon bucle, si el mouse està dins d'alguna cassela, calcula la distància horitzontal fins a la casella i assigna una alçada així
-
-```python
-distance = abs(cell_x - mouse_pos["x"])
-
-max_distance = 200  # Distància màxima per al mínim efecte
-heights[cnt] = max(5, 45 - min(distance, max_distance) * (40 / max_distance))
-```
-
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
-  <source src="./assets/exercici022.mov" type="video/mp4">
-</video>
-</center>
-<br/>
-
-## Exercici 23
-
-Fes un programa **exercici023.py** que faci una simulació del sistema solar. Per fer-ho:
-
-```python
-# Colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (50, 120, 200)
-BROWN = (165, 42, 42)
-YELLOW = (255, 255, 0)
-GRAY = (169, 169, 169) 
-ORANGE = (255, 165, 0)
-GOLD = (255, 215, 0)
-RED = (255, 69, 0) 
-
-# Dades del sistema
-sun = {
-    "pos": (0, 0),
-    "radius": 20
-}
-planets = {
-    "Mercury": { "distance": 58,  "speed": 47.87, "radius": 3.80, "color": GRAY, "angle": 0, "pos": (0, 0) },
-    "Venus":   { "distance": 108, "speed": 35.02, "radius": 9.50, "color": GOLD, "angle": 0, "pos": (0, 0) },
-    "Earth":   { "distance": 150, "speed": 29.78, "radius": 10.0, "color": BLUE, "angle": 0, "pos": (0, 0) },
-    "Mars":    { "distance": 228, "speed": 24.07, "radius": 5.30, "color": RED,  "angle": 0, "pos": (0, 0) },
+snake = {
+    "queue": [],
+    "speed": 50,
+    "radius": 7,
+    "status": "follow_mouse", # "follow_mouse" or "orbit_mouse"
+    "direction_angle": 0
 }
 
-# A "app_run" es calcularà:
-
-    # La posició del sol al centre de la finestra
-    sun["pos"] = (int(screen.get_width() / 2), int(screen.get_height() / 2)) 
-
-    # Per cada planeta, calcula:
-    # -El seu 'angle' a partir de "velocitat*delta_time"
-    # (cada planeta té la seva pròpia velocitat "speed")
-
-    # - La seva posició 'x,y' al perímetre de la òrbita,
-    #   amb la funció 'utils.point_on_circle'
-    #   * El radi és la seva distància fins al sol 
-    #   * L'angle l'has calculat al pas anterior
-
-# A "app_draw" per cada planeta es dibuixa:
-
-    # El cercle de la òrbita de color "GRAY = (169, 169, 169)" 
-    # Cada planeta a la seva posició
-
-    # El nom del planeta
-    label = font.render(name, True, GRAY)
-    label_rect = label.get_rect()
-    label_rect.midleft = (planet["pos"][0] + planet["radius"] + 5, planet["pos"][1]) 
-    screen.blit(label, label_rect)
+piece = { # (food)
+    "x": -1, 
+    "y": -1, 
+    "value": 0,
+    "radius": 7
+}  
 ```
 
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
-  <source src="./assets/exercici023.mov" type="video/mp4">
-</video>
-</center>
-<br/>
+Cal mostrar un resum amb:
 
-## Exercici 24
+- El nivell o pomes que ha menjat
+- La llargada de la serp
+- La velocitat
 
-Fes un programa **exercici024.py** que mostri un rellotge com el del vídeo.
+Aquestes són les condicions:
 
-Fes servir la funció **"utils.point_on_circle"** per obtenir la posició dels punts (x, y) dels números, i agulles al voltant dels seus respectius cercles.
+- La posició dels cercles que defineixen la llargada de la serp es guaden a *snake["queue"]*
+- Els cercles més llunyans al cap de la serp es dibuixen d'un gris més clar
+- La velocitat de la serp depèn de *delta_time* i creix *1.05* cada vegada que menja una poma, fins a un màxim de 200
+- Les pomes es generen aleatòriament dins l'espai definit per la finestra amb un padding de 100 pixels horitzontals i verticals
+- Quan el mouse es deixa fixe, la serp orbita al voltant del punter (això ho fa la funció "get_next_snake_pos")
 
-Per obtenir la hora amb precissió en **python**, cal importar:
+Et caldràn les següents funcions:
 ```python
-from datetime import datetime
+def init_game()
+# Inicia el joc creant la primera peça si no existeix i col·locant la serp al centre de la pantalla amb una mida inicial de 5 segments.
+
+def generate_piece()
+# Genera una nova peça amb una posició i un valor aleatori dins dels límits de la finestra.
+
+def extend_snake()
+# Afegeix un segment addicional a la cua de la serp copiant l'última posició de la cua actual.
+
+def move_snake(delta_time)
+# Detecta si la serp ha xocat amb la peça, augmenta la velocitat i la longitud de la serp segons el valor de la peça, i genera una nova peça si cal. Calcula i actualitza la nova posició del cap de la serp i elimina l'últim segment per mantenir la longitud constant.
+
+def get_next_snake_pos(delta_time)
+# Resolta més avall
+# Calcula la següent posició de la serp basant-se en la posició del ratolí i l'estat de la serp (seguint o orbitant el ratolí). Determina l'angle de direcció en funció de la distància i el pendent respecte al ratolí.
+
+def draw_board()
+# Mostra el nivell, la longitud de la serp, i la velocitat actual a la pantalla.
+
+def draw_snake()
+# Dibuixa la serp segment per segment, aplicant un efecte de lluminositat que varia segons la posició del segment dins la cua.
+
+def draw_piece()
+# Dibuixa la peça actual a la pantalla en color vermell, incloent-hi el seu valor al centre de la peça.
 ```
 
-Feu servir un objecte global per guardar les dades de la hora actual:
+
+Fes servir aquesta funció per calcular la posició de la serp:
 ```python
-time = { 
-    "hours": 0, 
-    "minutes": 0, 
-    "seconds": 0
-}
+def get_next_snake_pos(delta_time):
+    global snake
+
+    # Calcula la diferència en les coordenades entre el cap de la serp i el ratolí
+    delta_x = mouse_pos['x'] - snake["queue"][0]['x']
+    delta_y = mouse_pos['y'] - snake["queue"][0]['y']
+   
+    # Calcula la distància entre el cap de la serp i la posició del ratolí
+    distancia = math.hypot(delta_x, delta_y)
+
+    # Determina l'estat de la serp segons la distància al ratolí
+    if distancia < 5:
+        snake["status"] = 'orbit_mouse'  # Estat per orbitar prop del ratolí
+    if distancia > 50:
+        snake["status"] = 'follow_mouse'  # Estat per seguir el ratolí
+
+    # Si la serp està en estat d'òrbita, 
+    # augmenta l'angle de direcció per fer-la girar
+    if snake["status"] == 'orbit_mouse':
+        snake["direction_angle"] += distancia * math.pi / 1000
+    else:
+        # Calcula el pendent per obtenir l'angle; 
+        # si delta_x és 0, s'estableix a infinit per evitar divisió per zero
+        if delta_x != 0:
+            pendent = delta_y / delta_x
+        else:
+            pendent = float('inf')
+
+        # Calcula l'angle de direcció de la serp per seguir el ratolí
+        if delta_x == 0 and mouse_pos['y'] < snake["queue"][0]['y']:
+            # Angle per anar amunt (270 graus)
+            snake["direction_angle"] = (3 * math.pi) / 2
+        elif delta_x == 0 and mouse_pos['y'] >= snake["queue"][0]['y']:
+            # Angle per anar avall (90 graus)
+            snake["direction_angle"] = math.pi / 2
+        elif mouse_pos['x'] > snake["queue"][0]['x']:
+            # Angle per anar cap a la dreta 
+            snake["direction_angle"] = math.atan(pendent)
+        else:
+            # Angle per anar cap a l'esquerra (180 graus)
+            snake["direction_angle"] = math.atan(pendent) + math.pi
+
+    return {
+        "x": snake["queue"][0]['x'] + snake["speed"] * delta_time * math.cos(snake["direction_angle"]), 
+        "y": snake["queue"][0]['y'] + snake["speed"] * delta_time * math.sin(snake["direction_angle"])
+    }
 ```
-
-Actualitzeu la informació de la hora a la funció **"app_run"**:
-```python
-def app_run():
-    global time
-
-    now = datetime.now()
-    current_time_ms = now.timestamp() * 1000
-    
-    # Hores amb fracció de minuts (format 12 hores)
-    time["hours"] = (current_time_ms / 3600000) % 12
-
-    # Minuts amb fracció de segons    
-    time["minutes"] = (current_time_ms / 60000) % 60
-
-    # Segons amb fracció de mil·lisegons
-    time["seconds"] = (current_time_ms / 1000) % 60
-```
-
-Aquests són els colors:
-```python
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (50, 120, 200)
-RED = (255, 69, 0) 
-```
-
-Feu el dibuix amb el rellotge centrat a (325, 250).
-
-- Els números van a un radi de 200
-- L'agulla de les hores a un radi de (200*0.4)
-- L'agulla dels minuts a un radi de (200*0.7)
-- L'agulla dels segons a un radi de (200*0.9)
-- Els angles tenen un **"offset = -90"**, per ajustar la posició d'angle 0 d'un rellotge amb la 0 de **pygame**
-
-Exemple de com dibuixar les hores:
-```python
-degrees_per_hour = (360 / 12)
-hour_angle = (degrees_per_hour * time["hours"]) + offset
-hour = utils.point_on_circle(center, radius * 0.4, hour_angle)
-hour_tuple = (hour["x"], hour["y"])
-pygame.draw.line(screen, WHITE, center_tuple, hour_tuple, 10)
-```
-
-<center>
-<video width="100%" controls allowfullscreen style="max-width: 90%; width: 400px; max-height: 250px">
-  <source src="./assets/exercici024.mov" type="video/mp4">
-</video>
-</center>
-<br/>
